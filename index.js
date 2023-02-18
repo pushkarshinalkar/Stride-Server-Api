@@ -10,12 +10,8 @@ app.use(bodyParser.json());
 app.use(cors());
 
 const pool = new pg.Pool({
-    user: 'postgres', // or the username you use to connect to PostgreSQL
-    host: 'localhost', // or '127.0.0.1'
-    database: 'stride',
-    password: 'PostPass',
-    port: 5432
-});
+    connectionString: 'postgresql://postgres:TGULlCSFWsPNWSWeMMWY@containers-us-west-126.railway.app:7017/railway',
+  });
 
 // API endpoints for app_user table
 

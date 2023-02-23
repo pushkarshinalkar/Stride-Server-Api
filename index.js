@@ -10,12 +10,8 @@ app.use(bodyParser.json());
 app.use(cors());
 
 const pool = new pg.Pool({
-    user: 'postgres', // or the username you use to connect to PostgreSQL
-    host: 'localhost', // or '127.0.0.1'
-    database: 'stride',
-    password: 'PostPass',
-    port: 5432
-});
+    connectionString: 'postgresql://postgres:TGULlCSFWsPNWSWeMMWY@containers-us-west-126.railway.app:7017/railway',
+  });
 
 // API endpoints for app_user table
 
@@ -79,6 +75,25 @@ app.delete('/users/:id', async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 });
+
+app.post('/login', async (req, res) => {
+    const { u_email, u_password } = req.body;
+    try {
+        const { rows } = await pool.query(
+            'SELECT * FROM app_user WHERE u_email = $1 AND u_password = $2',
+            [u_email, u_password]
+        );
+        if (rows.length > 0) {
+            res.send(rows[0]); // Valid credentials, return the user
+        } else {
+            res.status(401).send('Invalid credentials'); // Invalid credentials
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
 
 // API endpoints for course table
 

@@ -76,6 +76,25 @@ app.delete('/users/:id', async (req, res) => {
     }
 });
 
+app.post('/login', async (req, res) => {
+    const { u_email, u_password } = req.body;
+    try {
+        const { rows } = await pool.query(
+            'SELECT * FROM app_user WHERE u_email = $1 AND u_password = $2',
+            [u_email, u_password]
+        );
+        if (rows.length > 0) {
+            res.send(rows[0]); // Valid credentials, return the user
+        } else {
+            res.status(401).send('Invalid credentials'); // Invalid credentials
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+
 // API endpoints for course table
 
 app.get('/courses', async (req, res) => {

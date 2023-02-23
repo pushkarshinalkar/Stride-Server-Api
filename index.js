@@ -84,7 +84,8 @@ app.post('/login', async (req, res) => {
             [u_email, u_password]
         );
         if (rows.length > 0) {
-            res.send(rows[0]); // Valid credentials, return the user
+            const user = rows[0];
+            res.send({ user }); // Valid credentials, return the user object
         } else {
             res.status(401).send('Invalid credentials'); // Invalid credentials
         }
@@ -93,6 +94,7 @@ app.post('/login', async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 });
+
 
 
 // API endpoints for course table

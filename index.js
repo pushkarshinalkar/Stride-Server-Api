@@ -305,6 +305,17 @@ app.delete('/videos/:id', async (req, res) => {
     }
 });
 
+app.get('/history/user/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const { rows } = await pool.query('SELECT * FROM watch_history WHERE w_user_id = $1', [id]);
+        res.send(rows);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
 // Start the server
 app.listen(PORT, () => {
     console.log(`Server is listening on port ${PORT}`);

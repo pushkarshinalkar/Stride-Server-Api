@@ -119,6 +119,18 @@ app.get('/courses/featured', async (req, res) => {
     }
 });
 
+app.get('/courses/search', async (req, res) => {
+    const { keyword } = req.query;
+    try {
+        const { rows } = await pool.query(`SELECT * FROM course WHERE c_name ILIKE '%${keyword}%'`);
+        res.send(rows);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+
 
 app.get('/courses/:id', async (req, res) => {
     const { id } = req.params;

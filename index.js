@@ -109,6 +109,17 @@ app.get('/courses', async (req, res) => {
     }
 });
 
+app.get('/courses/featured', async (req, res) => {
+    try {
+        const { rows } = await pool.query('SELECT * FROM course WHERE c_is_featured = true');
+        res.send(rows);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+
 app.get('/courses/:id', async (req, res) => {
     const { id } = req.params;
     try {
@@ -241,6 +252,18 @@ app.get('/videos/:id', async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 });
+
+app.get('/videos/courseid/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const { rows } = await pool.query('SELECT * FROM video WHERE v_course_id = $1', [id]);
+        res.send(rows);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
 
 app.post('/videos', async (req, res) => {
     const { v_course_id, v_name, v_time_min, v_small_image_link, v_transcript, v_link } = req.body;

@@ -13,6 +13,50 @@ const pool = new pg.Pool({
     connectionString: 'postgresql://postgres:TGULlCSFWsPNWSWeMMWY@containers-us-west-126.railway.app:7017/railway',
   });
 
+
+
+
+// endpoint for sending mail // can be used anywhere
+
+  app.post('/contact', async (req, res) => {
+    try {
+      const { firstName, lastName, email, phone, message } = req.body;
+  
+      // Create a transporter object with SMTP configuration
+      const transporter = nodemailer.createTransport({
+        host: 'smtp.gmail.com',
+        port: 465,
+        secure: true,
+        auth: {
+          user: 'courseappmail@gmail.com',
+          pass: 'vbxjoyvvlurzltvc'
+        }
+      });
+  
+      // Setup email data
+      const mailOptions = {
+        from: `${firstName} ${lastName} <${email}>`,
+        to: 'pushkarshinalkar001@gmail.com',
+        subject: 'New Message from Website Contact Form',
+        text: `Name: ${firstName} ${lastName}\nEmail: ${email}\nPhone: ${phone}\nMessage: ${message}`
+      };
+  
+      // Send email using transporter object
+      const info = await transporter.sendMail(mailOptions);
+  
+      console.log('Message sent: %s', info.messageId);
+  
+      res.status(200).send({ code: 200, message: 'Message sent successfully' });
+    } catch (error) {
+      console.log(error);
+      res.status(500).send({ code: 500, message: 'Something went wrong, please try again later.' });
+    }
+  });
+
+
+
+
+
 // API endpoints for app_user table
 
 app.get('/users', async (req, res) => {

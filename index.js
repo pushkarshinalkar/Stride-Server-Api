@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 const pool = new pg.Pool({
-    connectionString: 'postgresql://postgres:TGULlCSFWsPNWSWeMMWY@containers-us-west-126.railway.app:7017/railway',
+    connectionString: '--removed--',
   });
 
 
@@ -29,16 +29,16 @@ const pool = new pg.Pool({
         port: 465,
         secure: true,
         auth: {
-          user: 'courseappmail@gmail.com',
-          pass: 'vbxjoyvvlurzltvc'
+          user: '--removed--',
+          pass: '--removed--'
         }
       });
   
       // Setup email data
       const mailOptions = {
         from: `${firstName} ${lastName} <${email}>`,
-        to: 'pushkarshinalkar001@gmail.com',
-        subject: 'New Message from Website Contact Form',
+        to: '--removed--',
+        subject: 'New Messege From User',
         text: `Name: ${firstName} ${lastName}\nEmail: ${email}\nPhone: ${phone}\nMessage: ${message}`
       };
   
